@@ -7,3 +7,31 @@
 //
 //  The tab component should look like this:
 //    <div class="tab">topic here</div>
+
+
+// get the list of topics from the heroku backend
+const getTopicList = () => {
+	axios.get('https://lambda-times-backend.herokuapp.com/topics')
+		.then( response => {
+			const tabs = document.querySelector('.tabs .topics');
+			const topics = response.data.topics;
+			topics.forEach(topic => tabs.appendChild(makeTab(topic)));
+	})
+	.catch( err => {
+		console.log('An error occurred!');
+		console.log(err);
+	});
+};
+
+
+// generate a tab div element given a topic
+const makeTab = (topic) => {
+	const div = document.createElement('div');
+	div.className = 'tab';
+	div.textContent = topic;
+	return div;
+};
+
+
+// generate the topics tab list
+getTopicList();
